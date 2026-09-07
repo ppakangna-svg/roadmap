@@ -630,7 +630,7 @@ function renderTabs(scroll){
 }
 
 /* ---------- 본문 ---------- */
-let termFilter=(window.innerWidth<820)?0:'all';
+let termFilter='all';
 function render(){
   renderTabs(true);
   const stage=document.getElementById('stage'), st=active();
@@ -1110,7 +1110,9 @@ document.getElementById('pr-all').onclick=()=>doPrint(true);
 document.getElementById('bulk-go').onclick=runBulk;
 
 try{ localStorage.setItem('__t','1'); localStorage.removeItem('__t'); }catch(e){ storageOK=false; }
-state=load(); syncMeta(); bindMeta(); render();
+state=load(); syncMeta(); bindMeta();
+if(!state.updatedAt && !state.students.length){ const s0=newStudent('',''); state.students.push(s0); state.activeId=s0.id; }
+render();
 if(storageOK) chip(state.updatedAt?'저장된 자료 열림':'자동 저장 켜짐', state.updatedAt>0);
 else{ chip('자동 저장 불가',false); setTimeout(()=>toast('이 브라우저에서는 자동 저장이 막혀 있습니다. 작업 후 반드시 [내보내기]를 눌러 주세요.'),800); }
 let scrollT=null;
